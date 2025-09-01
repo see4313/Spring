@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.emp.mapper.BoardMapper">
+<mapper namespace="com.example.demo.board.mapper.BoardMapper">
 
 
 <!-- 전체조회 -->
 <select id="selectBoard" 
          resultType="boardVO">
-	SELECT bno,
-           title,
-           content,
-           writer,
-           regdate,
-           updatedate
-    FROM tbl_board
+	SELECT BNO,
+           TITLE,
+           CONTENT,
+           WRITER,
+           REGDATE,
+           UPDATEDATE
+    FROM TBL_BOARD
 </select>
 
 <!-- 단건조회 -->
-<select id="selectBoardById">
-	SELECT rno,
-           bno,
-           reply,
-           replyer,
-           replydate,
-           updatedate
-    FROM tbl_reply
+<select id="selectBoardById" resultType="boardVO" parameterType="Long">
+	SELECT BNO,
+           TITLE,
+           CONTENT,
+           WRITER,
+           REGDATE,
+           UPDATEDATE
+    FROM TBL_BOARD
+    WHERE BNO = #{bno}
 </select>
 
 </mapper>

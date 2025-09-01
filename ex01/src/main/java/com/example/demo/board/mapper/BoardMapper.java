@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.emp.service.BoardVO;
+import com.example.demo.board.service.BoardVO;
+
 
 @Mapper
-public class BoardMapper {
+public interface BoardMapper {
 	// 전체조회
-//	List<BoardVO> selectBoard(BoardVO boardVO);
+	List<BoardVO> selectBoard(BoardVO boardVO);
 	
 	// 단건조회
-//	BoardVO selectBoardById(Long boardId);
+	BoardVO selectBoardById(Long bno);
 }
