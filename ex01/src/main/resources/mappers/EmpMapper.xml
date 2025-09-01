@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.emp.mapper.EmpMapper">
-<!-- 전체조회 -->
+
+
+
+<sql id = "criteria">
+	  <where>
+        <if test = "firstName != null">
+            UPPER(FIRST_NAME) LIKE '%' || UPPER(#{firstName}) || '%'
+            <!-- FIRST_NAME LIKE '%${firstName}% 로도 사용 가능 -->
+        </if>
+        <if test = "departmentId != null">
+            AND DEPARTMENT_ID = #{departmentId}               
+        </if>
+       </where>
+</sql>
+
+
+<!-- 건수 조회 -->
+	<select id="selectCount" resultType="long">
+		select count(*) 
+		from employees
+		<include refid = "criteria"></include>
+	</select>
+	
+<!-- 전체조회(페이징, 검색) -->
+<!-- parameterType="" 는 생략 가능 -->
    <select id="selectEmp" 
-   resultType="empVO">
-      SELECT EMPLOYEE_ID, 
-      		 FIRST_NAME, 
-      		 LAST_NAME, 
-      		 EMAIL, 
-      		 PHONE_NUMBER, 
-      		 HIRE_DATE, 
-			 JOB_ID, 
-			 SALARY, 
-			 COMMISSION_PCT, 
-			 MANAGER_ID, 
-			 DEPARTMENT_ID
-      	FROM EMPLOYEES
+           resultType="empVO">
+	SELECT * FROM (
+	               SELECT /* +INDEX_DESC (EMPLOYEES EMP_EMP_ID_PK) */
+	                      ROWNUM RN, E.*
+	               FROM EMPLOYEES E
+	             <include refid = "criteria"></include>
+	) B WHERE RN BETWEEN #{first} AND #{last}	
    </select>
+
+<!--  -->
+<resultMap type= "empVO" id="empMap">
+	<association property="deptVO" column="DEPARTMENT_ID"
+    			 javaType="DeptVO" select="selectDeptById"/>
+</resultMap>
+
+	<select id= "selectDeptById" resultType="deptVO">
+		SELECT DEPARTMENT_ID,
+			   DEPARTMENT_NAME,
+			   MANAGER_ID,
+			   LOCATION_ID 
+		FROM DEPARTMENTS
+		WHERE DEPARTMENT_ID = #{departmentId}
+	</select>
 
 <!-- 단건조회 -->
    <select id="selectEmpById" 
-   resultType="empVO">
+   		   resultMap="empMap" 
+   		   parameterType="long">
       SELECT EMPLOYEE_ID, 
       		 FIRST_NAME, 
       		 LAST_NAME, 
@@ -36,36 +70,37 @@
       	WHERE EMPLOYEE_ID = #{employeeId}
    </select>
 <!-- 등록 -->
-<insert id = "insertEmp">
-INSERT INTO EMPLOYEES
-            (
-           EMPLOYEE_ID,
-           FIRST_NAME,
-           LAST_NAME,
-           EMAIL,
-           PHONE_NUMBER,
-           HIRE_DATE,
-           JOB_ID,
-           SALARY,
-           COMMISSION_PCT,
-           MANAGER_ID,
-           DEPARTMENT_ID
-          )
-    VALUES (
-         #{employeeId},
-         #{firstName},
-         #{lastName},
-         #{email},
-         #{phoneNumber},
-         #{hireDate},
-         #{jobId},
-         #{salary},
-         #{commissionPct},
-         #{managerId},
-         #{departmentId}
-         )
-</insert>
+	<insert id = "insertEmp">
+	INSERT INTO EMPLOYEES
+	            (
+	           EMPLOYEE_ID,
+	           FIRST_NAME,
+	           LAST_NAME,
+	           EMAIL,
+	           PHONE_NUMBER,
+	           HIRE_DATE,
+	           JOB_ID,
+	           SALARY,
+	           COMMISSION_PCT,
+	           MANAGER_ID,
+	           DEPARTMENT_ID
+	          )
+	    VALUES (
+	         #{employeeId},
+	         #{firstName},
+	         #{lastName},
+	         #{email},
+	         #{phoneNumber},
+	         #{hireDate},
+	         #{jobId},
+	         #{salary},
+	         #{commissionPct},
+	         #{managerId},
+	         #{departmentId}
+	         )
+	</insert>
 <!-- 수정 -->
+
 <!-- 삭제 -->
 
 </mapper>
