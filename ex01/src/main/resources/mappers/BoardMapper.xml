@@ -27,4 +27,18 @@
     WHERE BNO = #{bno}
 </select>
 
+<!-- 등록 -->
+<insert id="insertBoard">
+	INSERT INTO TBL_BOARD
+</insert>
+<!-- 수정 -->
+
+
+<!-- 삭제 -->
+<delete id="deleteBoard" parameterType="Long">
+	DELETE TBL_BOARD
+	WHERE BNO = #{bno}
+</delete>
+
+
 </mapper>
