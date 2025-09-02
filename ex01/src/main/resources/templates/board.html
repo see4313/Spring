@@ -49,6 +49,9 @@
  replyList();
  replyInsert();
  replyDelete();
+ replyUpdate();
+ replyUpdateForm();
+ replyCancel();
  
  
  /*-------------------------------------
@@ -147,6 +150,112 @@
  		}
  	})
  }
+ 
+	
+ /*-------------------------------------
+ 수정폼 버튼 이벤트 지정
+ ---------------------------------------*/	
+ function replyUpdateForm(){
+
+ 	document.querySelector("#replyList").addEventListener("click", function(event){
+ 		//수정 폼 버튼이면
+ 		if(event.target.classList.contains("btnReplyUpdateForm")) {
+ 			// 버튼을 포함하는 부모태그
+ 			const div = event.target.closest(".row");
+ 			
+ 			// 수정할 데이터 
+ 			const rno = event.target.dataset.rno;
+ 			const reply = div.children[0].innerHTML;
+ 			const replyer = div.children[1].innerHTML;
+ 		
+ 			const item = {rno, reply, replyer};
+ 			
+ 			// 수정폼으로 변경
+ 			div.replaceWith( replyFormMake(item) );	
+ 		}
+ 	})	
+ } 
+
+ /*-------------------------------------
+ 수정폼 태그 생성
+ ---------------------------------------*/
+ function replyFormMake(item){
+ 	let tag = document.createElement("div");
+ 	tag.className = "replyUpdateForm row mt-2 border";
+ 	tag.innerHTML = `
+         <div class="col-6"><input id="reply" value="${item.reply}" data-value="${item.reply}"></div>
+         <div class="col-3"><input id="replyer" value="${item.replyer}" data-value="${item.replyer}" readonly></div>
+         <div class="col-3">
+         <button type="button"
+                 data-rno="${item.rno}" 
+                 class="btn btn-danger btnReplyCancel">취소</button>
+         <button type="button"
+             data-rno="${item.rno}" 
+             class="btn btn-success btnReplyUpdate">저장</button>			                           
+       </div>`;
+     return tag;  
+ }
+
+
+ /*-------------------------------------
+ 수정 버튼 이벤트 지정
+ ---------------------------------------*/	
+ function replyUpdate(){
+	 	document.querySelector("#replyList").addEventListener("click", function(event){
+	 		if(event.target.classList.contains("btnReplyUpdate")) {
+	 			if(! confirm("수정할까요")){
+	 				return;
+	 			}
+	 			// 버튼을 포함하는 부모태그
+	 			const div = event.target.closest(".row");
+	 			// 수정할 댓글번호  
+	 			const rno = event.target.dataset.rno;
+	 			const reply = div.querySelector("#reply").value
+	 			
+	 			const param = {rno, reply}
+	 			
+	 			const url = `/reply/${rno}`;
+	 			fetch(url, {
+	 	 			method:"put",
+	 	 			headers: {
+	 	 			      "Content-Type": "application/json",
+	 	 			      // 'Content-Type': 'application/x-www-form-urlencoded',
+	 	 			    },
+	 	 			body : JSON.stringify(param), 
+	 	 		})
+	 	 		.then( result => result.json() )
+	 	 		.then( result => replyList() ) //true 1 => vo 
+	 	 		//replyList()는 등록 후 목록 바로 불러오기 호출 
+	 			}
+	 	 	})
+ } 
+ 
+
+ /*-------------------------------------
+ 취소 버튼 이벤트 지정
+ ---------------------------------------*/	
+ function replyCancel(){
+ 	document.querySelector("#replyList").addEventListener("click", function(event){
+ 		//수정 폼 버튼이면
+ 		if(event.target.classList.contains("btnReplyCancel")) {
+ 			// 버튼을 포함하는 부모태그
+ 			const div = event.target.closest(".row");
+ 			
+ 			// 수정할 데이터 
+ 			const rno = event.target.dataset.rno;
+ 			const reply = div.querySelector("#reply").dataset.value;
+ 			const replyer = div.querySelector("#replyer").dataset.value;
+ 		
+ 			const item = {rno, reply, replyer};
+ 			
+ 			// 수정폼으로 변경
+ 			div.replaceWith( replyMake(item) );
+ 			
+ 		} //end of if
+ 	}) // end of addEvent 		
+ } //end of function
+
+
  	
  </script>
  
