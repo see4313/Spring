@@ -42,10 +42,10 @@ public class ReplyController {
 	
 	//전체조회
 	@GetMapping("/board/{bno}/reply")
-	public List<ReplyVO> list(@PathVariable  Long bno,ReplyVO vo) {
+	public List<ReplyVO> list(@PathVariable Long bno, ReplyVO vo) { // @PathVariable Long bno: 주소 중간에 {bno}를 읽어오기 위해 사용
 		vo.setBno(bno);
+		vo.setFirst(1);
 		vo.setLast(100);
-		vo.setFirst(0);
 		return replyMapper.getList(vo);
 	}
 	

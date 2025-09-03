@@ -8,24 +8,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.board.mapper.BoardMapper;
+import com.example.demo.board.service.BoardService;
 import com.example.demo.board.service.BoardVO;
 
 
 @Controller
 public class BoardController {
-	@Autowired BoardMapper boardMapper; // new X, 객체(빈)거 주입됨.
+	@Autowired BoardService boardService; // new X, 객체(빈)거 주입됨.
 	
 	// 전체조회
 	@GetMapping("boardList")
 	public String BoardList(Model model, BoardVO boardVO) {
-		model.addAttribute("boardList", boardMapper.selectBoard(boardVO));
+		model.addAttribute("boardList", boardService.selectBoard(boardVO));
 		return "boardList"; // empList.html
 	}
 	
 	// 단건조회
 	@GetMapping("board") 
 	public String board(Model model, @RequestParam("bno") Long bno) {
-		model.addAttribute("board", boardMapper.selectBoardById(bno));
+		model.addAttribute("board", boardService.selectBoardById(bno));
 		return "board";
 	}
 	

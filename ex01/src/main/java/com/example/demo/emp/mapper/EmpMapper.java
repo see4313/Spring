@@ -19,4 +19,8 @@ public interface EmpMapper {
 	
 	// 등록
 	   int insertEmp(EmpVO empVO);
+	   
+	// 수정
+	   
+	// 삭제
 }

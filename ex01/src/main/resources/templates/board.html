@@ -6,43 +6,66 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     
   </head>
+  
   <body>
   <!-- 게시글 단건조회 시작 -->
-    <h1>게시글정보</h1>
-    <table class="table">
-      <tr>
-        <td>NO.</td>
-        <td th:text="${board.bno}"></td>
-      </tr>
-       <tr>
-        <td>작성자</td>
-        <td th:text="${board.writer}"></td>
-      </tr>
-      <tr>
-        <td>내용</td>
-        <td th:text="${board.content}"></td>
-      </tr>
-      <tr>
-        <td>등록일</td>
-        <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
-      </tr>
-      <tr>
-        <td>수정일</td>
-        <td th:text="${ #dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>
-      </tr>
-      
-    </table>
+<div class="card mb-3">
+  	<div class="card-body" >
+    	<h5 class="card-title">게시글정보</h5>
+    	<table class="table">
+		    <tr>
+		      <td>NO.</td>
+		      <td th:text="${board.bno}"></td>
+		    </tr>
+		     <tr>
+		      <td>작성자</td>
+		      <td th:text="${board.writer}"></td>
+		    </tr>
+		    <tr>
+		      <td>내용</td>
+		      <td th:text="${board.content}"></td>
+		    </tr>
+		    <tr>
+		      <td>등록일</td>
+		      <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
+		    </tr>
+		    <tr>
+		      <td>수정일</td>
+		      <td th:text="${ #dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>
+		    </tr>   
+    	</table>
+    </div>
+ </div>
+ 
+ 
  <!-- 댓글 시작 -->
- <div id = "replyList"></div>
+ <div class="card mb-3">
+  	<div class="card-body" >
+  	<h5 class="card-title">댓글목록</h5>
+ 		<div id = "replyList">
+	 		<div class="row border">
+	    	<div class="col-lg-2 text-danger-emphasis">홍길동</div>
+	    	<div class="col-lg-6">댓글 잘 부탁함</div>
+	     	<div class="col-lg-4"><button class="btn-btn-success" btnReplyUpdateForm>수정</button>
+	     						  <button  class="btn-btn-primary" btnReplyDeleteFrom>삭제</button></div>
+ 	 	</div>
+ 	 
+ 	</div>
+ 	</div>
+ </div>
  <!-- 댓글 끝 -->
  
  <!-- 댓글등록 시작 -->
- <form id="replyForm">
- 	<input name="reply">
- 	<input name="replyer">
- 	<input name="bno" type="hidden" th:value="${board.bno}">
- 	<button type="button" class="btnReplyInsert">저장</button> 	
- </form>
+ <div class="card mb-3">
+  	<div class="card-body" >
+ 		<form id="replyForm">
+ 			<input name="reply">
+		 	<input name="replyer">
+		 	<input name="bno" type="hidden" th:value="${board.bno}">
+		 	<button type="button" class="btnReplyInsert">저장</button> 	
+		 </form>
+ 	</div>
+ </div>
  <!-- 댓글등록 끝 -->
  
  <script>
@@ -53,14 +76,36 @@
  replyUpdateForm();
  replyCancel();
  
- 
+
  /*-------------------------------------
  등록 버튼 이벤트 지정
  ---------------------------------------*/	
  const url = "/reply";
  
- 
-
+ function replyInsert(){
+ 	document.querySelector(".btnReplyInsert")
+ 	.addEventListener("click", function(){
+ 		//파라미터 만들기
+ 		const reply = replyForm.reply.value;
+ 		const replyer = replyForm.replyer.value;
+ 		const bno = replyForm.bno.value;
+ 		const param = {reply, replyer, bno}
+ 		
+ 		
+ 		//등록 요청
+ 		fetch(url, {
+ 			method:"post",
+ 			headers: {
+ 			      "Content-Type": "application/json",
+ 			      // 'Content-Type': 'application/x-www-form-urlencoded',
+ 			    },
+ 			body : JSON.stringify(param), 
+ 		})
+ 		.then( result => result.text() )
+ 		.then( result => alert(result) )  //t 1 vo
+ 		//.then( result => replyList() )
+ 	})
+ } 
  /*-------------------------------------
  댓글 조회 ajax 호출
  ---------------------------------------*/
@@ -79,29 +124,19 @@
  function replyListCallback(result){
  	const replys = document.querySelector("#replyList");
  	replys.innerHTML = "";
- 	result.forEach(item => replys.insertAdjacentElement("beforeend", replyMake(item)) );
+ 	result.forEach(item => replys.insertAdjacentHTML("beforeend", replyMake(item)) );
  }
-
- /*-------------------------------------
- 댓글 조회 태그 생성
- ---------------------------------------*/
- function replyMake(item){
- 	let tag = document.createElement("div");
- 	tag.className = "row mt-2";
- 	tag.innerHTML = `
-         <div class="col-6">${item.reply}</div>
-         <div class="col-3">${item.replyer}</div>
-         <div class="col-3">
-           <button type="button"
-                   data-rno="${item.rno}" 
-                   class="btn btn-success btnReplyUpdateForm">수정</button>			                           
-           <button type="button"
-                   data-rno="${item.rno}" 
-                   class="btn btn-danger btnReplyDelete">삭제</button>
-         </div>`;
-     return tag;    
+ /*--------------------------------------
+  * 댓글 태그 생성
+  --------------------------------------*/
+  function replyMake(item){
+ 	return `<div class="row border">
+     <div class="col-lg-2 text-danger">${item.replyer}</div>
+     <div class="col-lg-6">${item.reply}</div>
+     <div class="col-lg-4"><button type="button" data-rno="${item.rno}" class="btn btn-success btnReplyUpdateForm">수정</button>
+                           <button type="button" data-rno="${item.rno}" class="btn btn-primary btnReplyDelete">삭제</button></div>
+ 	</div>`
  }
-
  
  function replyInsert(){
  	document.querySelector(".btnReplyInsert").addEventListener("click", function(){
