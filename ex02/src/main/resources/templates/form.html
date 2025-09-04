@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <form action="#" th:action="@{/person}" th:object="${personForm}" method="post">
+        <!-- object랑 fields랑 세트 
+        object라는 객체를 위에서 지정해주고 밑에서 personForm.name의 형태가 아니라 *{name}의 형태로 필드명만으로 사용 가능. -->
+            <table>
+                <tr>
+                    <td>이름:</td>
+                    <td><input type="text" th:field="*{name}" /></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                </tr>
+                <tr>
+                    <td>나이:</td>
+                    <td><input type="text" th:field="*{age}" /></td>
+                    <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+                </tr>
+                    <tr>
+                    <td>폰번호:</td>
+                    <td><input type="text" th:field="*{phone}" /></td>
+                    <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone Error</td>
+                </tr>
+                    <tr>
+                    <td>메일:</td>
+                    <td><input type="text" th:field="*{email}" /></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</td>
+                </tr>
+                        <tr>
+                    <td>날짜:</td>
+                    <td><input type="date" th:field="*{startdate}" />
+                    	<input type="date" th:field="*{enddate}" /></td>
+                    <td th:errors="*{endDateAfterStartDate}">date Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
