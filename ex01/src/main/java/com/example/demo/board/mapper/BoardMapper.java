@@ -16,8 +16,11 @@ public interface BoardMapper {
 	BoardVO selectBoardById(Long bno);
 	
 	// 등록
+	int insertBoard(BoardVO boardVO);
+	
 	
 	// 수정
+	
 	
 	// 삭제 
 	int deleteBoard(Long bno);

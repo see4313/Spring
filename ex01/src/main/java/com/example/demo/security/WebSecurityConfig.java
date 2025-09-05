@@ -32,8 +32,9 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/", "/home").permitAll()
+				.requestMatchers("/", "/home", "/upload/**").permitAll()
 				.requestMatchers("/admin").hasRole("ADMIN")
+				.requestMatchers("/board/**").hasAnyRole("ADMIN", "USER")
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
@@ -47,7 +48,7 @@ public class WebSecurityConfig {
 //			 .and()
 			.logout((logout) -> logout.permitAll());
 		
-//			http.csrf(csrf -> csrf.disable());
+			http.csrf(csrf -> csrf.disable());
 			http.exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()));
 
 		return http.build();

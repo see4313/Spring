@@ -11,6 +11,7 @@ public interface BoardService {
 	BoardVO selectBoardById(Long bno);
 	
 	// 등록
+	int insertBoard(BoardVO boardVO);
 	
 	// 수정
 	

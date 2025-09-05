@@ -26,12 +26,12 @@ public class EmpController {
 		empVO.setFirst(paging.getFirst());
 		empVO.setLast(paging.getLast());
 		model.addAttribute("empList", empService.selectEmp(empVO));
-		return "empList"; // empList.html
+		return "emp/empList"; // empList.html
 	}
 	
 	@GetMapping("emp") // localhost/emp?employeeId = 100
 	public String emp(Model model, @RequestParam("employeeId") Long employeeId) {
 		model.addAttribute("emp", empService.selectEmpById(employeeId));
-		return "emp";
+		return "emp/emp";
 	}
 }

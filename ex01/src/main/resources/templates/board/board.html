@@ -26,6 +26,13 @@
 		      <td th:text="${board.content}"></td>
 		    </tr>
 		    <tr>
+		      <td>첨부파일</td>
+		      <td>
+			      <a th:href="|/board/download/${board.attach}|" th:text="${board.attach}"></a>
+			      <img th:src="|/upload/${board.attach}|" style="width:300px; height:auto;">
+		      </td>
+		    </tr>
+		    <tr>
 		      <td>등록일</td>
 		      <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
 		    </tr>
