@@ -6,10 +6,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.example.demo.domain.Customer;
 import com.example.demo.repository.CustomerRepository;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+@EnableJpaAuditing
 @SpringBootApplication
 public class Ex05JpaApplication {
 

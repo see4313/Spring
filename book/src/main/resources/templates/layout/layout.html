@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+	.header {
+		background-color: #555;
+		color: white;
+		text-align: center;
+		padding: 10px 0;
+	}
+	.menu {
+		background-color: black;
+		padding: 10px;
+	}
+	.menu ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+	}
+	.menu ul li {
+		margin-right: 20px;
+	}
+	.menu ul li a {
+		color: white;
+		text-decoration: none;
+		font-weight: bold;
+	}
+	.footer {
+		background-color: #555;
+		color: white;
+		text-align: center;
+		padding: 3px 0;
+	}
+	table th {
+		text-align: center;
+	}
+	
+</style>
+
+</head>
+<body>
+	<div class="header">
+	  <h2>도서대여관리</h2>
+	</div>
+	<div class="menu">
+		<ul>
+		<li><a th:href="@{/registe}">도서등록</a></li>
+			<li><a th:href="@{/bookList}">도서목록조회/수정</a></li>
+			<li><a th:href="@{/rentList}">대여현황조회</a></li>
+			<li><a th:href="@{/bookList}">홈으로</a></li>
+		</ul>
+    </div>
+    <div class="card">
+    	<div layout:fragment="content"></div>
+    </div>
+
+
+
+
+<!-- layour폴더 안에 footer중에 :: th:fragment의 이름에 따라 불러와짐 -->
+<div th:insert="~{layout/footer :: copy}"></div>
+
+</body>
+</html>

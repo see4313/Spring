@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+</head>
+<body layout:fragment="content">
+	<h2>도서별 대여매출 현황</h2>
+<table class="table">
+		<tr>
+			<th>도서번호</th>
+			<th>도서명</th>
+			<th>대여총계</th>
+			<th>대여횟수</th>
+		</tr>
+	<tr th:each="book : ${rentList}">
+		<td th:text="${book.bookNo}" align="center"></td>
+		<td th:text="${book.bookName}" align="center"></td>
+		<td th:text="${book.totalRentPrice}" align="right"></td>
+		<td th:text="${book.rentCount}" align="right"></td>
+	</tr>
+</table>
+</body>
+</html>

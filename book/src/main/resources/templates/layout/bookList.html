@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body layout:fragment="content">
+	<h2>list</h2>
+<table class="table">
+		<tr>
+			<th>도서번호</th>
+			<th>도서명</th>
+			<th>표지</th>
+			<th>출판일자</th>
+			<th>금액</th>
+			<th>출판사</th>
+			<th>도서소개</th>
+		</tr>
+	<tr th:each="book : ${bookList}">
+		<td th:text="${book.bookNo}"></td>
+		<td th:text="${book.bookName}"></td>
+		<td> <img th:src="${book.bookCoverImg}" style="width:50px; height:auto;"> </td>
+		<td th:text="${book.bookDate}"></td>
+		<td th:text="${book.bookPrice}"></td>
+		<td th:text="${book.bookPublisher}"></td>
+		<td th:text="${book.bookInfo}"></td>
+	</tr>
+</table>
+</body>
+</html>

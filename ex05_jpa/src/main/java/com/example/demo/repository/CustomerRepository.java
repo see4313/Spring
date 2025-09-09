@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.domain.Customer;
@@ -19,4 +20,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	List<Customer> findByPhone(String phone); // String phone이 '%?1%'에 들어감 
 	
 
+	@Query("select u from Customer u where u.phone like %:phone% or name like %:name% order by name desc") 
+	List<Customer> findByPhoneOrName(@Param("phone") String phone, @Param("name") String name); // @Param 에서 사용하는 이름은 위에 쿼리문작성할 때 사용되는 이름과 동일.
 }

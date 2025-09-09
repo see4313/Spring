@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+<body layout:fragment="content">
+	<div class="container">
+		<header>
+			<h1 class="text-center">도서등록</h1>
+		</header>
+		<main class="card">
+			<div class="card-header">
+				<div class=" row justify-content-between">
+					<div class="col-4 text-end"></div>
+				</div>
+			</div>
+			<div class="card-body">
+				<h3>도서 작성</h3>
+				<form action="registe" method="post" enctype="multipart/form-data">
+					<div class="mb-3">
+						<label for="content" class="form-label">도서번호</label> <input
+							type="text" class="form-control" name="bookNo" readonly>
+					</div>
+					<div class="mb-3">
+						<label for="content" class="form-label">도서명</label> <input
+							type="text" class="form-control" name="bookName">
+					</div>
+					<div class="mb-3">
+						<label for="writer" class="form-label">도서표지</label> <input
+							type="text" class="form-control" name="bookCoverImg">
+					</div>
+					<div class="mb-3">
+						<label for="writer" class="form-label">출판일자</label> <input
+							type="text" class="form-control" name="bookDate">
+					</div>
+					<div class="mb-3">
+						<label for="writer" class="form-label">금액</label> <input
+							type="text" class="form-control" name="bookPrice">
+					</div>
+					<div class="mb-3">
+						<label for="writer" class="form-label">출판사</label> <input
+							type="text" class="form-control" name="bookPublisher">
+					</div>
+					<div class="mb-3">
+						<label for="writer" class="form-label">도서소개</label>
+						<textarea type="text" class="form-control" name="bookInfo"></textarea>
+					</div>
+					<div class="d-flex justify-content-md-end" >
+						<button class="btn btn-success">등록</button>
+						<button type="button" class="btn btn-warning" onclick="location.href='/bookList'">조회</button>
+					</div>
+
+				</form>
+			</div>
+		</main>
+	</div>
+</body>
+</html>
